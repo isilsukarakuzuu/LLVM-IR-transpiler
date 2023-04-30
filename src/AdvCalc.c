@@ -772,7 +772,9 @@ int main(int argc, char *argv[])
     }
 
     fprintf(fp2, "call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @print.str, i32 0, i32 0), i32 %s)\n", result);
+    temp_count++;
   }
+  fprintf(fp2, "ret i32 0\n");
   fprintf(fp2, "}");
   // free the variables
   free_variables();
