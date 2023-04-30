@@ -9,9 +9,9 @@ a & (b - 5)
 a & (c + 5)
 a | c + 5
 a | c + 5 - 1
-b = b - 5 % b = 8
-a = a + 5 % a = 8
-c = a + b % c = 16
+b = b - 5 
+a = a + 5 
+c = a + b 
 a * (b * b) - (c - 13) * (a - b + 5) + 2 * c - 1 + 1
 iki = 2
 gercekteniki = 2

@@ -410,30 +410,36 @@ char *expression_value_finder(char *input, int length)
     {
       char *value1 = expression_value_finder(input, index);
       char *value2 = expression_value_finder(input + index + 1, length - index - 1);
+      char *temp1 = (char *)calloc(10, sizeof(char));
+      sprintf(temp1, "%%%d", temp_count++);
+      fprintf(fp2, "%s = sub i32 32, %s\n", temp1, value2);
+      char *temp2 = (char *)calloc(10, sizeof(char));
+      sprintf(temp2, "%%%d", temp_count++);
+      fprintf(fp2, "%s = shl i32 %s, %s\n", temp2, value1, value2);
+      char *temp3 = (char *)calloc(10, sizeof(char));
+      sprintf(temp3, "%%%d", temp_count++);
+      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp3, value1, temp1);
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
-      char *temp2 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = sub i32 32, %s\n", temp2, value2);
-      char *temp3 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = shl i32 %s, %s\n", temp3, value1, value2);
-      char *temp4 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp4, value1, temp2);
-      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp3, temp4);
+      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp2, temp3);
       return temp;
     }
     if (input[index] == ']')
     {
       char *value1 = expression_value_finder(input, index);
       char *value2 = expression_value_finder(input + index + 1, length - index - 1);
+      char *temp1 = (char *)calloc(10, sizeof(char));
+      sprintf(temp1, "%%%d", temp_count++);
+      fprintf(fp2, "%s = sub i32 32, %s\n", temp1, value2);
+      char *temp2 = (char *)calloc(10, sizeof(char));
+      sprintf(temp2, "%%%d", temp_count++);
+      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp2, value1, value2);
+      char *temp3 = (char *)calloc(10, sizeof(char));
+      sprintf(temp3, "%%%d", temp_count++);
+      fprintf(fp2, "%s = shl i32 %s, %s\n", temp3, value1, temp1);
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
-      char *temp2 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = sub i32 32, %s\n", temp2, value2);
-      char *temp3 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp3, value1, value2);
-      char *temp4 = (char *)calloc(10, sizeof(char));
-      fprintf(fp2, "%s = shl i32 %s, %s\n", temp4, value1, temp2);
-      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp3, temp4);
+      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp2, temp3);
       return temp;
     }
   }
