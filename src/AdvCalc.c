@@ -11,7 +11,7 @@ const char *operators = "+-*&|/_";
 char *reserved_functions[] = {"xor", "not", "ls", "rs", "lr", "rr"};
 // xor --> ^, ls --> <, rs --> >, lr --> [, rr --> ]
 const char *new_operators = "^~<>[]";
-int temp_count = 10000;
+int temp_count = 1;
 
 FILE *fp;
 FILE *fp2;
@@ -606,7 +606,6 @@ char *expression_parser(char *input, int length)
   }
   space_deleter(sub_expr);
   char *temp = expression_value_finder(sub_expr, strlen(sub_expr));
-  printf("expression: %s\n", temp);
 
   free(sub_expr);
   return temp;
