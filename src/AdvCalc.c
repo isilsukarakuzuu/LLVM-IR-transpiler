@@ -39,7 +39,7 @@ void array_printer(char *array, int length)
 int index_finder(char *input, int length, char *operator_array)
 {
   // returns the index of the first operator in the operator array
-  for (int i = 0; i < length; i++)
+  for (int i = length - 1; i >= 0; i--)
   {
     for (int j = 0; operator_array[j] != '\0'; j++)
     {
@@ -542,7 +542,7 @@ char *expression_value_finder(char *input, int length)
   }
 
   char *value = value_checker(input, length);
-  if (value != "-1")
+  if (strcmp(value, "-1") != 0)
   {
     return value;
   }
