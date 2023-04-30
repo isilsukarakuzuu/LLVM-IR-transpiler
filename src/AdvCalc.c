@@ -406,18 +406,36 @@ char *expression_value_finder(char *input, int length)
       fprintf(fp2, "%s = ashr i32 %s, %s\n", temp, value1, value2);
       return temp;
     }
-    // if (input[index] == '[')
-    // {
-    //   // Returns the result of a rotated i times to the left.
-    //   long long int a = expression_value_finder(input, index);
-    //   return (a << expression_value_finder(input + index + 1, length - index - 1)) | (a >> (64 - expression_value_finder(input + index + 1, length - index - 1)));
-    // }
-    // if (input[index] == ']')
-    // {
-    //   // Returns the result of a rotated i times to the right.
-    //   long long int a = expression_value_finder(input, index);
-    //   return (a >> expression_value_finder(input + index + 1, length - index - 1)) | (a << (64 - expression_value_finder(input + index + 1, length - index - 1)));
-    // }
+    if (input[index] == '[')
+    {
+      char *value1 = expression_value_finder(input, index);
+      char *value2 = expression_value_finder(input + index + 1, length - index - 1);
+      char *temp = (char *)calloc(10, sizeof(char));
+      sprintf(temp, "%%%d", temp_count++);
+      char *temp2 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = sub i32 32, %s\n", temp2, value2);
+      char *temp3 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = shl i32 %s, %s\n", temp3, value1, value2);
+      char *temp4 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp4, value1, temp2);
+      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp3, temp4);
+      return temp;
+    }
+    if (input[index] == ']')
+    {
+      char *value1 = expression_value_finder(input, index);
+      char *value2 = expression_value_finder(input + index + 1, length - index - 1);
+      char *temp = (char *)calloc(10, sizeof(char));
+      sprintf(temp, "%%%d", temp_count++);
+      char *temp2 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = sub i32 32, %s\n", temp2, value2);
+      char *temp3 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = lshr i32 %s, %s\n", temp3, value1, value2);
+      char *temp4 = (char *)calloc(10, sizeof(char));
+      fprintf(fp2, "%s = shl i32 %s, %s\n", temp4, value1, temp2);
+      fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp3, temp4);
+      return temp;
+    }
   }
 
   // | operator
