@@ -7,7 +7,9 @@
 
 bool debug = false;
 bool error = false;
+bool check = true;
 const char *operators = "+-*&|/_";
+// % --> _
 char *reserved_functions[] = {"xor", "not", "ls", "rs", "lr", "rr"};
 // xor --> ^, ls --> <, rs --> >, lr --> [, rr --> ]
 const char *new_operators = "^~<>[]";
@@ -191,23 +193,6 @@ char *value_checker(char *input, int length)
     {
       continue;
     }
-    return "-1";
-  }
-
-  // checks if the input is not too long
-  if (length > 10)
-  {
-    return "-1";
-  }
-
-  // checks if the input is not too big
-  long long int value = 0;
-  for (int i = 0; i < length; i++)
-  {
-    value = value * 10 + (input[i] - '0');
-  }
-  if (value > 2147483647)
-  {
     return "-1";
   }
 
@@ -555,7 +540,7 @@ char *expression_value_finder(char *input, int length)
 
   if (variable_checker(input, length))
   {
-    return get_variable(input, length, temp_count++, fp2);
+    return get_variable(input, length, temp_count++, fp2, &error);
   }
   debug_printer("Invalid exp value finder.");
   array_printer(input, length);
@@ -664,7 +649,7 @@ int main(int argc, char *argv[])
   int line_count = 0;
   while (true)
   {
-
+    error = false;
     if (fgets(input, sizeof(input), fp) == NULL)
     {
       break;
@@ -697,7 +682,8 @@ int main(int argc, char *argv[])
     if (!contains_valid_chars(input))
     {
       debug_printer("contains invalid chars");
-      printf("Error!\n");
+      printf("Error on line %d!\n", line_count);
+      check = false;
       continue;
     }
 
@@ -715,7 +701,9 @@ int main(int argc, char *argv[])
     {
       debug_printer("spaces are not placed correctly");
       array_printer(input, strlen(input));
-      printf("Error!\n");
+      printf("Error on line %d!\n", line_count);
+      check = false;
+
       continue;
     }
 
@@ -726,14 +714,16 @@ int main(int argc, char *argv[])
     if (!are_parantheses_placed_correctly(input))
     {
       debug_printer("parantheses are not placed correctly");
-      printf("Error!\n");
+      printf("Error on line %d!\n", line_count);
+      check = false;
       continue;
     }
 
     int length = is_it_a_equation(input);
     if (error)
     {
-      printf("Error!\n");
+      printf("Error on line %d!\n", line_count);
+      check = false;
       error = false;
       continue;
     }
@@ -745,7 +735,8 @@ int main(int argc, char *argv[])
       if (!variable_checker(input, length))
       {
         debug_printer("left side of the equal sign is not a variable");
-        printf("Error!\n");
+        printf("Error on line %d!\n", line_count);
+        check = false;
         continue;
       }
       function_parser(input);
@@ -754,7 +745,8 @@ int main(int argc, char *argv[])
       char *result = expression_parser(input + length + 1, strlen(input) - length - 1);
       if (error)
       {
-        printf("Error!\n");
+        printf("Error on line %d!\n", line_count);
+        check = false;
         error = false;
         continue;
       }
@@ -772,7 +764,8 @@ int main(int argc, char *argv[])
 
     if (error)
     {
-      printf("Error!\n");
+      printf("Error on line %d!\n", line_count);
+      check = false;
       error = false;
       continue;
     }
@@ -786,4 +779,9 @@ int main(int argc, char *argv[])
   free_variables();
 
   fclose(fp);
+  fclose(fp2);
+  if (check == false)
+  {
+    remove(filename2);
+  }
 }

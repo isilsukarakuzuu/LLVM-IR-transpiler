@@ -12,7 +12,7 @@ struct variable
 struct variable *variables[256];
 int variable_count = 0;
 
-char *get_variable(char *name, int length, int tempcount, FILE *fp2)
+char *get_variable(char *name, int length, int tempcount, FILE *fp2, bool *error)
 {
   for (int i = 0; i < variable_count; i++)
   {
@@ -30,7 +30,8 @@ char *get_variable(char *name, int length, int tempcount, FILE *fp2)
       return temp;
     }
   }
-  return 0;
+  *error = true;
+  return "-1";
 }
 
 void set_variable(char *name, char *value, FILE *fp2)
