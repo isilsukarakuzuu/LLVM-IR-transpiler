@@ -26,7 +26,7 @@ char *get_variable(char *name, int length, int tempcount, FILE *fp2, bool *error
         temp2[j] = name[j];
       }
       fprintf(fp2, "%%%d = load i32, i32* %%%s\n", tempcount, temp2);
-      // print the name
+      free(temp2);
       return temp;
     }
   }

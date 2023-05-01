@@ -371,6 +371,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = xor i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     if (input[index] == '<')
@@ -380,6 +382,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = shl i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     if (input[index] == '>')
@@ -389,6 +393,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = ashr i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     if (input[index] == '[')
@@ -407,6 +413,11 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp2, temp3);
+      free(value1);
+      free(value2);
+      free(temp1);
+      free(temp2);
+      free(temp3);
       return temp;
     }
     if (input[index] == ']')
@@ -425,6 +436,11 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = or i32 %s, %s\n", temp, temp2, temp3);
+      free(value1);
+      free(value2);
+      free(temp1);
+      free(temp2);
+      free(temp3);
       return temp;
     }
   }
@@ -439,6 +455,8 @@ char *expression_value_finder(char *input, int length)
     char *temp = (char *)calloc(10, sizeof(char));
     sprintf(temp, "%%%d", temp_count++);
     fprintf(fp2, "%s = or i32 %s, %s\n", temp, value1, value2);
+    free(value1);
+    free(value2);
     return temp;
   }
   // & operator
@@ -451,6 +469,8 @@ char *expression_value_finder(char *input, int length)
     char *temp = (char *)calloc(10, sizeof(char));
     sprintf(temp, "%%%d", temp_count++);
     fprintf(fp2, "%s = and i32 %s, %s\n", temp, value1, value2);
+    free(value1);
+    free(value2);
     return temp;
   }
 
@@ -466,6 +486,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = add i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     else
@@ -475,6 +497,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = sub i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
   }
@@ -490,6 +514,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = mul i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     if (input[index] == '/')
@@ -499,6 +525,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = sdiv i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
     if (input[index] == '_')
@@ -508,6 +536,8 @@ char *expression_value_finder(char *input, int length)
       char *temp = (char *)calloc(10, sizeof(char));
       sprintf(temp, "%%%d", temp_count++);
       fprintf(fp2, "%s = srem i32 %s, %s\n", temp, value1, value2);
+      free(value1);
+      free(value2);
       return temp;
     }
   }
@@ -518,6 +548,7 @@ char *expression_value_finder(char *input, int length)
     char *temp = (char *)calloc(10, sizeof(char));
     sprintf(temp, "%%%d", temp_count++);
     fprintf(fp2, "%s = xor i32 %s, -1\n", temp, value);
+    free(value);
     return temp;
   }
 
@@ -784,4 +815,5 @@ int main(int argc, char *argv[])
   {
     remove(filename2);
   }
+  free(filename2);
 }
