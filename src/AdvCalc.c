@@ -106,7 +106,7 @@ int are_spaces_placed_correctly(char *input)
       {
         i++;
       }
-      if (!(isalpha(input[i]) || isdigit(input[i]) || input[i] == '_'))
+      if (!(isalpha(input[i]) || isdigit(input[i])))
       {
         continue;
       }
