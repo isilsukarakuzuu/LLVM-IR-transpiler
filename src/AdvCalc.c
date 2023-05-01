@@ -613,6 +613,7 @@ char *expression_parser(char *input, int length)
       // increase k by the number of digits in the expression + 2
       k += strlen(expression) + 2;
       i = j;
+      free(expression);
     }
     else
     {
@@ -785,6 +786,7 @@ int main(int argc, char *argv[])
       strncpy(variable, input, length);
       variable[length] = '\0';
       set_variable(variable, result, fp2);
+      free(result);
       continue;
     }
 
@@ -802,6 +804,7 @@ int main(int argc, char *argv[])
     }
 
     fprintf(fp2, "call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @print.str, i32 0, i32 0), i32 %s)\n", result);
+    free(result);
     temp_count++;
   }
   fprintf(fp2, "ret i32 0\n");
