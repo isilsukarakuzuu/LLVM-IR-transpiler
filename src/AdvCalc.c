@@ -7,7 +7,7 @@
 
 bool debug = false;
 bool error = false;
-bool check = true;
+bool check = true; // checks if the input file has no syntax errors and undefined variables
 const char *operators = "+-*&|/_";
 // % --> _
 char *reserved_functions[] = {"xor", "not", "ls", "rs", "lr", "rr"};
@@ -15,9 +15,12 @@ char *reserved_functions[] = {"xor", "not", "ls", "rs", "lr", "rr"};
 const char *new_operators = "^~<>[]";
 int temp_count = 1;
 
-FILE *fp;
-FILE *fp2;
+FILE *fp;  // input file
+FILE *fp2; // output file
 
+// function declarations
+
+// function to print the error message if debug is true
 void debug_printer(char *error_message)
 {
   if (debug)
@@ -26,6 +29,7 @@ void debug_printer(char *error_message)
   }
 }
 
+// function to print the array if debug is true
 void array_printer(char *array, int length)
 {
   if (debug)
@@ -38,6 +42,8 @@ void array_printer(char *array, int length)
   }
 }
 
+// function to find the index of the last operator in the operator array, returns -1 if no operator is found
+// by finding the last, we obtain a left associative rule
 int index_finder(char *input, int length, char *operator_array)
 {
   // returns the index of the first operator in the operator array
@@ -178,6 +184,7 @@ int variable_checker(char *input, int length)
   return 1;
 }
 
+// checks if the input has a valid integer value
 char *value_checker(char *input, int length)
 {
   // checks if the input is not empty
@@ -205,6 +212,7 @@ char *value_checker(char *input, int length)
   return value2;
 }
 
+// controls if the input is a assignment or expression
 int is_it_a_equation(char *input)
 {
   // checks if the input has only 1 equal sign
@@ -263,6 +271,7 @@ int are_parantheses_placed_correctly(char *input)
   return 0;
 }
 
+// parses the complex functions in AdvCalc such as: xor, ls, rs, lr, rr, not. replaces the functions with new operators
 void function_parser(char *input)
 {
   for (int i = 0; input[i] != '\0'; i++)
@@ -333,6 +342,7 @@ void function_parser(char *input)
   }
 }
 
+// assigns the register of the parsed expression (by expression_parser), returns the value as a register
 char *expression_value_finder(char *input, int length)
 {
   if (length == 0)
@@ -579,6 +589,7 @@ char *expression_value_finder(char *input, int length)
   return "-1";
 }
 
+// parses the experssion while checking for paranthesis, returns a inner expression, and calls the expression_value_finder function
 char *expression_parser(char *input, int length)
 {
   debug_printer("expression_parser called.");
@@ -648,6 +659,7 @@ int main(int argc, char *argv[])
     filename = argv[1];
   }
 
+  // constructing the output file name
   for (size_t i = 0; i < strlen(filename); i++)
   {
     if (filename[i] == '.')
@@ -668,6 +680,7 @@ int main(int argc, char *argv[])
   fp = fopen(filename, "r");
   fp2 = fopen(filename2, "w");
 
+  // initializing the output file
   char *init_line = "; ModuleID = 'advcalc2ir'\n";
   char *init_line2 = "declare i32 @printf(i8*, ...)\n";
   char *init_line3 = "@print.str = constant [4 x i8] c\"%d\\0A\\00\"\n";
@@ -679,6 +692,7 @@ int main(int argc, char *argv[])
   fprintf(fp2, "%s", init_line4);
 
   int line_count = 0;
+  // reading the input file line by line
   while (true)
   {
     error = false;
